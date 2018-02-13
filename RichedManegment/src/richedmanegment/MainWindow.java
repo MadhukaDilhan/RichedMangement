@@ -56,6 +56,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton2.setText("Sell Book");
         jButton2.setToolTipText("");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainpnelLayout = new javax.swing.GroupLayout(mainpnel);
         mainpnel.setLayout(mainpnelLayout);
@@ -114,6 +119,10 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.sellBooks();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -164,5 +173,10 @@ public class MainWindow extends javax.swing.JFrame {
         BuyBook dialog = new BuyBook(this, true);
         dialog.setVisible(true);
         //System.out.println("dil");
+    }
+
+    private void sellBooks() {
+        sellBook dialog = new sellBook(this, true);
+        dialog.setVisible(true);
     }
 }
