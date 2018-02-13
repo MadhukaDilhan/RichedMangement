@@ -168,11 +168,8 @@ public class MainWindow extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void buyBooks() {
-        //BuyBook buy = new BuyBook();
-        //buy.setVisible(true);
         BuyBook dialog = new BuyBook(this, true);
-        dialog.setVisible(true);
-        //System.out.println("dil");
+        dialog.setVisible(true);        
     }
 
     private void sellBooks() {
