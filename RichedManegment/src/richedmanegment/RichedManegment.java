@@ -1,28 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package richedmanegment;
-import UserHandling.*;
-import DBConnection.*;
+
 import javax.swing.JFrame;
 
-/**
- *
- * @author DIL
- */
 public class RichedManegment {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-//        DBConnectionSet conn = new DBConnectionSet();
-//        conn.DBConnectionSett();
         MainWindow frame = new MainWindow();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame .setVisible(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
     }
-    
 }

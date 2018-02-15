@@ -1,7 +1,17 @@
-
 package UserHandling;
 
+import DBConnection.*;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class AddUser extends javax.swing.JDialog {
+
     public AddUser(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -76,9 +86,24 @@ public class AddUser extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddUserActionPerformed
-        String  user_name= username.getText();
-        String password = this.password.getText();
-        System.out.println(user_name+"  "+password);
+        try {
+            MyCrypto encript = new MyCrypto();
+            String user_name = username.getText();
+            String password = this.password.getText();
+            System.out.println(user_name + " --- " + password);
+            password = encript.encrypt(password);
+            System.out.println(user_name + "-------  " + password);
+            boolean succ = this.insertUser(user_name, password);
+            JFrame f = new JFrame();
+            if (succ) {
+                JOptionPane.showMessageDialog(f, "Insert User Details Succsess");
+                this.setClean();
+            } else {
+                JOptionPane.showMessageDialog(f, "Wrong Insert");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_AddUserActionPerformed
 
     /**
@@ -131,4 +156,28 @@ public class AddUser extends javax.swing.JDialog {
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
+
+    private boolean insertUser(String user_name, String password) throws SQLException {
+        boolean sucss = false;
+        DBConnection db = new DBConnection();
+        Connection connection = db.getConnection();
+        String sql = "INSERT INTO user (name,password,status) VALUES(?,?,?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, user_name);
+            pstmt.setString(2, password);
+            pstmt.setInt(3, 1);
+            pstmt.executeUpdate();
+            sucss = true;
+        } catch (SQLException e) {
+            System.out.println("User Is Not Insert" + e);
+        } finally {
+            connection.close();
+            return sucss;
+        }
+    }
+
+    private void setClean() {
+        username.setText("");
+        password.setText("");
+    }
 }

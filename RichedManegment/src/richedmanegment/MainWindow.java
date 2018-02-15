@@ -16,6 +16,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        this.initLoad();
     }
 
     /**
@@ -191,5 +192,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void sellBooks() {
         sellBook dialog = new sellBook(this, true);
         dialog.setVisible(true);
+    }
+
+    private void initLoad() {
+        UserLogin userlog = new UserLogin(this, true);
+        userlog.setVisible(true);
     }
 }
