@@ -58,19 +58,18 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                          <Component id="MainLabel" min="-2" pref="616" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="122" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" pref="117" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="MainLabel" min="-2" pref="616" max="-2" attributes="0"/>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButton1" min="-2" pref="122" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButton2" min="-2" pref="117" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="AddUser" min="-2" pref="166" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -83,6 +82,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jButton1" pref="91" max="32767" attributes="0"/>
                       <Component id="jButton2" max="32767" attributes="0"/>
+                      <Component id="AddUser" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="185" max="32767" attributes="0"/>
               </Group>
@@ -115,6 +115,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="AddUser">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add User"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddUserActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

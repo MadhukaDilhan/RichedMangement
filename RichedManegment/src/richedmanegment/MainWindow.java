@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package richedmanegment;
-
+import UserHandling.*;
 /**
  *
  * @author DIL
@@ -31,6 +31,7 @@ public class MainWindow extends javax.swing.JFrame {
         MainLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        AddUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -62,21 +63,29 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        AddUser.setText("Add User");
+        AddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainpnelLayout = new javax.swing.GroupLayout(mainpnel);
         mainpnel.setLayout(mainpnelLayout);
         mainpnelLayout.setHorizontalGroup(
             mainpnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainpnelLayout.createSequentialGroup()
-                .addGroup(mainpnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainpnelLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(MainLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mainpnelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(47, 47, 47)
+                .addComponent(MainLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
+            .addGroup(mainpnelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
         );
         mainpnelLayout.setVerticalGroup(
             mainpnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,7 +95,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainpnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(185, Short.MAX_VALUE))
         );
 
@@ -122,6 +132,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.sellBooks();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void AddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddUserActionPerformed
+        AddUser user = new AddUser(this, true);
+        user.setVisible(true);
+    }//GEN-LAST:event_AddUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +176,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddUser;
     private javax.swing.JLabel MainLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

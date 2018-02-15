@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package richedmanegment;
-
+import UserHandling.*;
+import DBConnection.*;
 import javax.swing.JFrame;
 
 /**
@@ -17,6 +18,8 @@ public class RichedManegment {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+//        DBConnectionSet conn = new DBConnectionSet();
+//        conn.DBConnectionSett();
         MainWindow frame = new MainWindow();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame .setVisible(true);
