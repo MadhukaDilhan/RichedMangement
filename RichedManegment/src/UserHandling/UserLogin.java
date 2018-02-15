@@ -1,6 +1,7 @@
 package UserHandling;
 
 import DBConnection.DBConnection;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,8 +57,13 @@ public class UserLogin extends javax.swing.JDialog {
                 formWindowClosed(evt);
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                enter(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(102, 255, 204));
 
         MainLabel.setFont(new java.awt.Font("Algerian", 0, 36)); // NOI18N
         MainLabel.setText("User Login");
@@ -67,10 +73,23 @@ public class UserLogin extends javax.swing.JDialog {
 
         jLabel2.setText("Password");
 
+        cansalbutton.setBackground(new java.awt.Color(255, 153, 153));
         cansalbutton.setText("Cansal");
+        cansalbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cansalbuttonActionPerformed(evt);
+            }
+        });
 
+        clearButton.setBackground(new java.awt.Color(255, 255, 204));
         clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
 
+        okbutton.setBackground(new java.awt.Color(153, 255, 153));
         okbutton.setText("OK");
         okbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,9 +115,9 @@ public class UserLogin extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(okbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cansalbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cansalbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                                .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
                             .addComponent(password))))
                 .addContainerGap())
         );
@@ -120,22 +139,18 @@ public class UserLogin extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cansalbutton)
                     .addComponent(clearButton))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 30, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -143,25 +158,7 @@ public class UserLogin extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okbuttonActionPerformed
-        try {
-            MyCrypto encript = new MyCrypto();
-            String user_name = username.getText();
-            String password = this.password.getText();
-            password = encript.encrypt(password);
-            boolean suc = this.checkUser(user_name, password);
-            JFrame f = new JFrame();
-            if (suc) {
-                this.dispose();
-                MainWindow frame = new MainWindow();
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                frame.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(f, "ErrorMsg", "Failure", JOptionPane.ERROR_MESSAGE);
-                this.setClean();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.pressOk();
     }//GEN-LAST:event_okbuttonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -169,6 +166,20 @@ public class UserLogin extends javax.swing.JDialog {
         System.out.println(loginstatus);
         super.dispose();
     }//GEN-LAST:event_formWindowClosed
+
+    private void cansalbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cansalbuttonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cansalbuttonActionPerformed
+
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        this.setClean();
+    }//GEN-LAST:event_clearButtonActionPerformed
+
+    private void enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enter
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.pressOk();
+        }
+    }//GEN-LAST:event_enter
 
     /**
      * @param args the command line arguments
@@ -249,5 +260,27 @@ public class UserLogin extends javax.swing.JDialog {
     private void setClean() {
         username.setText("");
         password.setText("");
+    }
+
+    private void pressOk() {
+        try {
+            MyCrypto encript = new MyCrypto();
+            String user_name = username.getText();
+            String password = this.password.getText();
+            password = encript.encrypt(password);
+            boolean suc = this.checkUser(user_name, password);
+            JFrame f = new JFrame();
+            if (suc) {
+                this.dispose();
+                MainWindow frame = new MainWindow();
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(f, "Incorrect User Name Or Password", "Failure", JOptionPane.ERROR_MESSAGE);
+                this.setClean();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
