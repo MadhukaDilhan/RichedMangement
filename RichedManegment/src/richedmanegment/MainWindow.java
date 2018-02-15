@@ -16,7 +16,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
-        this.initLoad();
+        //this.initLoad();
     }
 
     /**
@@ -197,5 +197,9 @@ public class MainWindow extends javax.swing.JFrame {
     private void initLoad() {
         UserLogin userlog = new UserLogin(this, true);
         userlog.setVisible(true);
+        System.out.println(userlog.loginstatus);
+        if(userlog.loginstatus == 0){
+            this.dispose();
+        }
     }
 }

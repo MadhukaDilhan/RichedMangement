@@ -1,12 +1,13 @@
 package richedmanegment;
 
+import UserHandling.*;
 import javax.swing.JFrame;
 
 public class RichedManegment {
 
     public static void main(String[] args) {
-        MainWindow frame = new MainWindow();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
+        UserLogin userlog = new UserLogin();
+        userlog.setVisible(true);
+        System.out.println(userlog.loginstatus);
     }
 }
