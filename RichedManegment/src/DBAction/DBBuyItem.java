@@ -15,7 +15,7 @@ public class DBBuyItem {
 
     public ArrayList<BuyItemBean> getTableData() {
         ArrayList<BuyItemBean> dataList = new ArrayList<BuyItemBean>();
-        String query = "SELECT `stock_id`, `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status` FROM `stockdetails` ORDER BY stock_id DESC";
+        String query = "SELECT `stock_id`, `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status` FROM `stockdetails` WHERE STATUS ='1' ORDER BY stock_id DESC";
         try {
             DBConnection db = new DBConnection();
             Connection connection = db.getConnection();
@@ -43,7 +43,7 @@ public class DBBuyItem {
 
     public ArrayList<BuyItemBean> getSelectedData(int id) {
         ArrayList<BuyItemBean> dataList = new ArrayList<BuyItemBean>();
-        String query = "SELECT `stock_id`, `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status` FROM `stockdetails` WHERE stock_id=" + id + "";
+        String query = "SELECT `stock_id`, `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status` FROM `stockdetails` WHERE stock_id=" + id + " AND status = '1'";
         try {
             DBConnection db = new DBConnection();
             Connection connection = db.getConnection();
@@ -83,6 +83,23 @@ public class DBBuyItem {
             pstmt.setDouble(4, bean.getBuyPrice());
             pstmt.setDouble(5, bean.getSellPrice());
             pstmt.setInt(6, bean.getId());
+            pstmt.executeUpdate();
+            sucss = true;
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Stock Is Not Insert" + e);
+        } finally {           
+            return sucss;
+        }
+    }
+
+    public boolean deleteBuyItem(int id) throws SQLException {
+      boolean sucss = false;
+        DBConnection db = new DBConnection();
+        Connection connection = db.getConnection();
+        String sql = "UPDATE stockdetails SET status= '0' WHERE stock_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);            
             pstmt.executeUpdate();
             sucss = true;
             connection.close();

@@ -28,12 +28,14 @@ public class BuyBook extends javax.swing.JDialog {
     public BuyBook() {
         initComponents();
         this.loadTable();
+        jButton3.setEnabled(false);
     }
 
     public BuyBook(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.loadTable();
+        jButton3.setEnabled(false);
     }
 
     /**
@@ -94,7 +96,12 @@ public class BuyBook extends javax.swing.JDialog {
             }
         });
 
-        jButton3.setText("Cansal");
+        jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         buytable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -270,6 +277,7 @@ public class BuyBook extends javax.swing.JDialog {
         int selectedRowIndex = buytable.getSelectedRow();
         id = (int) model.getValueAt(selectedRowIndex, 0);
         jButton1.setText("Edit");
+        jButton3.setEnabled(true);
         ArrayList<BuyItemBean> dataList = db.getSelectedData(id);
         BuyItemBean bean = dataList.get(0);
         No.setText(bean.getItemNo());
@@ -282,6 +290,22 @@ public class BuyBook extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setClean();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {            
+            DBBuyItem db = new DBBuyItem();
+            boolean  succ = db.deleteBuyItem(id);
+            if (succ) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Deleted Details Succsess");
+                    this.setClean();
+                    this.loadTable();
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(), "Not Delete");
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(BuyBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -369,6 +393,7 @@ public class BuyBook extends javax.swing.JDialog {
         buyprice.setText("");
         sellprice.setText("");
         jButton1.setText("Add");
+        jButton3.setEnabled(false);
     }
 
     private void loadTable() {
