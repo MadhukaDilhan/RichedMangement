@@ -4,8 +4,13 @@ import Bean.BuyItemBean;
 import Common.FilterJtable;
 import Common.MathOperation;
 import DBAction.DBBuyItem;
+import DBAction.DBQuickSellItem;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class QuickSell extends javax.swing.JFrame {
@@ -39,10 +44,10 @@ public class QuickSell extends javax.swing.JFrame {
         quantity = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         itemprice = new javax.swing.JTextField();
+        addtocart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quick Sell");
-        setAlwaysOnTop(true);
 
         MainLabel.setFont(new java.awt.Font("Algerian", 0, 36)); // NOI18N
         MainLabel.setText("Sell");
@@ -112,6 +117,16 @@ public class QuickSell extends javax.swing.JFrame {
 
         itemprice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        addtocart.setBackground(new java.awt.Color(204, 0, 0));
+        addtocart.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addtocart.setForeground(new java.awt.Color(255, 255, 255));
+        addtocart.setText("Add to Cart");
+        addtocart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addtocartActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,7 +157,9 @@ public class QuickSell extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(itemprice)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addtocart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemprice))))
                 .addContainerGap(451, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -172,6 +189,8 @@ public class QuickSell extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(itemprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(addtocart, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -213,6 +232,10 @@ public class QuickSell extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_quantityActionPerformed
 
+    private void addtocartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addtocartActionPerformed
+        this.addToCart();
+    }//GEN-LAST:event_addtocartActionPerformed
+
     public static void main(String args[]) {
 
         try {
@@ -243,6 +266,7 @@ public class QuickSell extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainLabel;
+    private javax.swing.JButton addtocart;
     private javax.swing.JTextField itemname;
     private javax.swing.JTextField itemprice;
     private javax.swing.JLabel jLabel1;
@@ -278,16 +302,40 @@ public class QuickSell extends javax.swing.JFrame {
     private void calculateItemPrice() {
         Double item_price = 0.0;
         String sell_price = sellprice.getText();
-        String quantityy = quantity.getText();
-        MathOperation math = new MathOperation();
-//        if (math.doubleOrNot(sell_price)) {
-//            sell_price = "0";
-//        }
-//        if (math.doubleOrNot(quantityy)) {
-//            quantityy = "0";
-//        }
+        String quantityy = quantity.getText();       
         item_price = Double.parseDouble(sell_price) * Double.parseDouble(quantityy);
         itemprice.setText(String.valueOf(item_price));
+    }
+
+    private void addToCart() {
+        try {
+            BuyItemBean bean = new BuyItemBean();
+            bean.setId(id);
+            bean.setItemQuantity(quantity.getText());
+            bean.setSellPrice(Double.parseDouble(itemprice.getText()));
+            DBQuickSellItem db = new DBQuickSellItem();
+            boolean succ = db.saveAddToCardToDB(bean);
+            if (succ) {
+                JOptionPane.showMessageDialog(new JFrame(), "Add TO CART Succsess");
+                this.setClean();
+                this.loadCartTable();
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "Add TO CART Not Succsess");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuickSell.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setClean() {
+        itemname.setText("");
+        sellprice.setText("");
+        quantity.setText("");
+        itemprice.setText("");
+    }
+    
+    private void loadCartTable() {
+     
     }
 
 }

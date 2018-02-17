@@ -22,10 +22,11 @@ import javax.swing.table.DefaultTableModel;
 public class BuyBook extends javax.swing.JDialog {
 
     int id;
+
     public BuyBook() {
         initComponents();
         this.loadTable();
-        jButton3.setEnabled(false);  
+        jButton3.setEnabled(false);
         FilterJtable n = new FilterJtable();
         n.FilterJtable(buytable, searchtable);
     }
@@ -38,7 +39,7 @@ public class BuyBook extends javax.swing.JDialog {
         FilterJtable filter = new FilterJtable();
         filter.FilterJtable(buytable, searchtable);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -242,7 +243,7 @@ public class BuyBook extends javax.swing.JDialog {
         try {
             DBBuyItem db = new DBBuyItem();
             if (jButton1.getText().equalsIgnoreCase("Add")) {
-                boolean succ = this.addBuyItem();               
+                boolean succ = this.addBuyItem();
                 if (succ) {
                     JOptionPane.showMessageDialog(f, "Insert User Details Succsess");
                     this.setClean();
@@ -258,7 +259,7 @@ public class BuyBook extends javax.swing.JDialog {
                 bean.setItemQuantity(quantity.getText());
                 bean.setBuyPrice(Double.parseDouble(buyprice.getText()));
                 bean.setSellPrice(Double.parseDouble(sellprice.getText()));
-                boolean succ= db.editBuyItem(bean);
+                boolean succ = db.editBuyItem(bean);
                 if (succ) {
                     JOptionPane.showMessageDialog(f, "Update User Details Succsess");
                     this.setClean();
@@ -293,22 +294,22 @@ public class BuyBook extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {            
+        try {
             DBBuyItem db = new DBBuyItem();
-            boolean  succ = db.deleteBuyItem(id);
+            boolean succ = db.deleteBuyItem(id);
             if (succ) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Deleted Details Succsess");
-                    this.setClean();
-                    this.loadTable();
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(), "Not Delete");
-                }
+                JOptionPane.showMessageDialog(new JFrame(), "Deleted Details Succsess");
+                this.setClean();
+                this.loadTable();
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "Not Delete");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BuyBook.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-    
-    public static void main(String args[]) {        
+
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new BuyBook().setVisible(true);
@@ -341,8 +342,8 @@ public class BuyBook extends javax.swing.JDialog {
         boolean sucss = false;
         DBConnection db = new DBConnection();
         Connection connection = db.getConnection();
-        String sql = "INSERT INTO `stockdetails`( `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status`)"
-                + " VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO `stockdetails`( `item_no`, `item_name`, `Quantity`, `buy_price`, `sell_price`, `status`,add_date)"
+                + " VALUES (?,?,?,?,?,?,now())";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, No.getText());
             pstmt.setString(2, name.getText());
@@ -350,6 +351,7 @@ public class BuyBook extends javax.swing.JDialog {
             pstmt.setString(4, buyprice.getText());
             pstmt.setString(5, sellprice.getText());
             pstmt.setInt(6, 1);
+
             pstmt.executeUpdate();
             sucss = true;
         } catch (SQLException e) {
