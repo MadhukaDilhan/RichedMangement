@@ -24,6 +24,7 @@ public class QuickSell extends javax.swing.JFrame {
         FilterJtable n = new FilterJtable();
         n.FilterJtable(stockTable, searchStockTable);
         itemprice.setEditable(false);
+        new DBQuickSellItem().deleteDataInAddToCart();
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +46,8 @@ public class QuickSell extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         itemprice = new javax.swing.JTextField();
         addtocart = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        addtocarttable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quick Sell");
@@ -76,12 +79,11 @@ public class QuickSell extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(stockTable);
         if (stockTable.getColumnModel().getColumnCount() > 0) {
-            stockTable.getColumnModel().getColumn(0).setMinWidth(0);
-            stockTable.getColumnModel().getColumn(0).setPreferredWidth(0);
-            stockTable.getColumnModel().getColumn(0).setMaxWidth(0);
             stockTable.getColumnModel().getColumn(1).setMinWidth(0);
             stockTable.getColumnModel().getColumn(1).setPreferredWidth(0);
             stockTable.getColumnModel().getColumn(1).setMaxWidth(0);
+            stockTable.getColumnModel().getColumn(1).setHeaderValue("Item No");
+            stockTable.getColumnModel().getColumn(4).setHeaderValue("Buy Prce");
         }
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -127,6 +129,29 @@ public class QuickSell extends javax.swing.JFrame {
             }
         });
 
+        addtocarttable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Quantity", "SellPrice"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        addtocarttable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addtocarttableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(addtocarttable);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -160,7 +185,9 @@ public class QuickSell extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addtocart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(itemprice))))
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +218,8 @@ public class QuickSell extends javax.swing.JFrame {
                             .addComponent(itemprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(addtocart, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -236,6 +264,10 @@ public class QuickSell extends javax.swing.JFrame {
         this.addToCart();
     }//GEN-LAST:event_addtocartActionPerformed
 
+    private void addtocarttableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtocarttableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addtocarttableMouseClicked
+
     public static void main(String args[]) {
 
         try {
@@ -267,6 +299,7 @@ public class QuickSell extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MainLabel;
     private javax.swing.JButton addtocart;
+    private javax.swing.JTable addtocarttable;
     private javax.swing.JTextField itemname;
     private javax.swing.JTextField itemprice;
     private javax.swing.JLabel jLabel1;
@@ -276,6 +309,7 @@ public class QuickSell extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField quantity;
     private javax.swing.JTextField searchStockTable;
     private javax.swing.JTextField sellprice;
@@ -335,7 +369,19 @@ public class QuickSell extends javax.swing.JFrame {
     }
     
     private void loadCartTable() {
-     
+        DefaultTableModel model = (DefaultTableModel) addtocarttable.getModel();
+        model.setRowCount(0);
+        DBQuickSellItem db = new DBQuickSellItem();
+        ArrayList<BuyItemBean> dataList = db.getAddToCartTableData();
+        Object rowData[] = new Object[6];
+        for (int i = 0; dataList != null && i < dataList.size(); i++) {
+            BuyItemBean bean = dataList.get(i);
+            rowData[0] = bean.getId();            
+            rowData[1] = bean.getItemName();
+            rowData[2] = bean.getItemQuantity();            
+            rowData[3] = bean.getSellPrice();
+            model.addRow(rowData);
+        }
     }
 
 }
