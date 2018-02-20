@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class QuickSell extends javax.swing.JFrame {
 
     int id;
+    int id_cart;
 
     public QuickSell() {
         initComponents();
@@ -24,7 +25,11 @@ public class QuickSell extends javax.swing.JFrame {
         FilterJtable n = new FilterJtable();
         n.FilterJtable(stockTable, searchStockTable);
         itemprice.setEditable(false);
-        new DBQuickSellItem().deleteDataInAddToCart();
+        itemname.setEditable(false);
+        sum.setEditable(false);
+        DBQuickSellItem db = new DBQuickSellItem();
+        db.deleteDataInAddToCart();
+        deletecart.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,6 +53,9 @@ public class QuickSell extends javax.swing.JFrame {
         addtocart = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         addtocarttable = new javax.swing.JTable();
+        sum = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        deletecart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quick Sell");
@@ -134,11 +142,11 @@ public class QuickSell extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Quantity", "SellPrice"
+                "ID", "Name", "Item Price", "Quantity", "SellPrice"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -152,13 +160,25 @@ public class QuickSell extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(addtocarttable);
 
+        sum.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setText("Totle Value    :");
+
+        deletecart.setText("Delete");
+        deletecart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletecartActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(MainLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 983, Short.MAX_VALUE))
+                .addGap(0, 1121, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -184,43 +204,61 @@ public class QuickSell extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addtocart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(itemprice))))
+                            .addComponent(itemprice)
+                            .addComponent(deletecart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(sum)
+                        .addGap(16, 16, 16))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(MainLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchStockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(itemname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sellprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchStockTable, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(itemprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(addtocart, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(itemname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sellprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(itemprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(addtocart, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deletecart, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -250,6 +288,7 @@ public class QuickSell extends javax.swing.JFrame {
         sellprice.setText(Double.toString(bean.getSellPrice()));
         itemprice.setText("");
         quantity.setText("");
+        deletecart.setEnabled(false);
     }//GEN-LAST:event_stockTableMouseClicked
 
     private void quantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityKeyReleased
@@ -265,8 +304,23 @@ public class QuickSell extends javax.swing.JFrame {
     }//GEN-LAST:event_addtocartActionPerformed
 
     private void addtocarttableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtocarttableMouseClicked
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) addtocarttable.getModel();
+        int selectedRowIndex = addtocarttable.getSelectedRow();
+        id_cart = (int) model.getValueAt(selectedRowIndex, 0);
+        deletecart.setEnabled(true);
     }//GEN-LAST:event_addtocarttableMouseClicked
+
+    private void deletecartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletecartActionPerformed
+        boolean succ = new DBQuickSellItem().DeleteStock(id_cart);
+        if (succ) {
+                JOptionPane.showMessageDialog(new JFrame(), "Deleted Details Succsess");
+                this.setClean();
+                this.loadCartTable();
+                this.calulateTableSumSell();
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "Not Delete");
+            }
+    }//GEN-LAST:event_deletecartActionPerformed
 
     public static void main(String args[]) {
 
@@ -300,6 +354,7 @@ public class QuickSell extends javax.swing.JFrame {
     private javax.swing.JLabel MainLabel;
     private javax.swing.JButton addtocart;
     private javax.swing.JTable addtocarttable;
+    private javax.swing.JButton deletecart;
     private javax.swing.JTextField itemname;
     private javax.swing.JTextField itemprice;
     private javax.swing.JLabel jLabel1;
@@ -307,6 +362,7 @@ public class QuickSell extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -314,6 +370,7 @@ public class QuickSell extends javax.swing.JFrame {
     private javax.swing.JTextField searchStockTable;
     private javax.swing.JTextField sellprice;
     private javax.swing.JTable stockTable;
+    private javax.swing.JTextField sum;
     // End of variables declaration//GEN-END:variables
     public void loadStockTable() {
         DefaultTableModel model = (DefaultTableModel) stockTable.getModel();
@@ -336,7 +393,7 @@ public class QuickSell extends javax.swing.JFrame {
     private void calculateItemPrice() {
         Double item_price = 0.0;
         String sell_price = sellprice.getText();
-        String quantityy = quantity.getText();       
+        String quantityy = quantity.getText();
         item_price = Double.parseDouble(sell_price) * Double.parseDouble(quantityy);
         itemprice.setText(String.valueOf(item_price));
     }
@@ -347,12 +404,14 @@ public class QuickSell extends javax.swing.JFrame {
             bean.setId(id);
             bean.setItemQuantity(quantity.getText());
             bean.setSellPrice(Double.parseDouble(itemprice.getText()));
+            bean.setBuyPrice(Double.parseDouble(sellprice.getText()));
             DBQuickSellItem db = new DBQuickSellItem();
             boolean succ = db.saveAddToCardToDB(bean);
             if (succ) {
                 JOptionPane.showMessageDialog(new JFrame(), "Add TO CART Succsess");
                 this.setClean();
                 this.loadCartTable();
+                this.calulateTableSumSell();
             } else {
                 JOptionPane.showMessageDialog(new JFrame(), "Add TO CART Not Succsess");
             }
@@ -367,7 +426,7 @@ public class QuickSell extends javax.swing.JFrame {
         quantity.setText("");
         itemprice.setText("");
     }
-    
+
     private void loadCartTable() {
         DefaultTableModel model = (DefaultTableModel) addtocarttable.getModel();
         model.setRowCount(0);
@@ -376,12 +435,24 @@ public class QuickSell extends javax.swing.JFrame {
         Object rowData[] = new Object[6];
         for (int i = 0; dataList != null && i < dataList.size(); i++) {
             BuyItemBean bean = dataList.get(i);
-            rowData[0] = bean.getId();            
+            rowData[0] = bean.getId();
             rowData[1] = bean.getItemName();
-            rowData[2] = bean.getItemQuantity();            
-            rowData[3] = bean.getSellPrice();
+            rowData[2] = bean.getBuyPrice();
+            rowData[3] = bean.getItemQuantity();
+            rowData[4] = bean.getSellPrice();
             model.addRow(rowData);
         }
+    }
+
+    private void calulateTableSumSell() {
+        DefaultTableModel model = (DefaultTableModel) addtocarttable.getModel();
+        int numberOfRaw = model.getRowCount();
+        double total = 0;
+        for (int i = 0; i < numberOfRaw; i++) {
+            double value = Double.valueOf(model.getValueAt(i, 4).toString());
+            total += value;
+        }
+        sum.setText(Double.toString(total));
     }
 
 }
